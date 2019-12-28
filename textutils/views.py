@@ -21,6 +21,7 @@ def analyze(request):
     newline_remover=request.POST.get('newlineremover', 'off')
     char_count=request.POST.get('charcount', 'off')
     numberremover = request.POST.get('numberremover', 'off')
+    extraspaceremover = request.POST.get('extraspaceremover', 'off')
 
 
 
@@ -63,6 +64,8 @@ def analyze(request):
         params={'purpose':'char count', 'num_char':'char_count is '+str(count),  'analyzed_text': analyzed }
         djtext=analyzed
 
+
+
     if (numberremover == "on"):
         analyzed = ""
         numbers = '0123456789'
@@ -74,7 +77,21 @@ def analyze(request):
         params = {'purpose': 'Removed numbers', 'analyzed_text': analyzed}
         djtext = analyzed
 
-    if (removepunc!='on' and newline_remover!='on' and char_count!='on' and fullcaps!='on' and numberremover != "on"):
+    if (extraspaceremover == "on"):
+        analyzed = ""
+        for index, char in enumerate(djtext):
+            # It is for if a extraspace is in the last of the string
+            if char == djtext[-1]:
+                if not (djtext[index] == " "):
+                    analyzed = analyzed + char
+
+            elif not (djtext[index] == " " and djtext[index + 1] == " "):
+                analyzed = analyzed + char
+
+        params = {'purpose': 'Removed NewLines', 'analyzed_text': analyzed}
+        djtext = analyzed
+
+    if (removepunc!='on' and newline_remover!='on' and char_count!='on' and fullcaps!='on' and numberremover != "on" and extraspaceremover != "on"):
         return render(request, 'index2.html')
 
 
