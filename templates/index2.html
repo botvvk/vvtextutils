@@ -5,15 +5,6 @@
     <title>textutils</title>
 </head>
 <body>
-<h1> welcome to the text analyazer.Enter your text below</h1> <br>
-    <form action="/analyze" method="get">
-        <textarea name="text" style="margin: 0px; width: 1331px; height: 205px;"></textarea><br>
-        <input  name="removepunc" type="checkbox">Remove Punctuation </input><br>
-        <input name ="fullcaps" type="checkbox">UPPERCASE</input><br>
-        <input  name="newlineremover" type="checkbox">New Line Remover </input><br>
-        <input  name="charcount" type="checkbox">Char Count </input><br>
-        <button type="submit">Analyzed text</button>
-    </form>
-
+<h1>Please! go <a href="{% url 'index' %}"> Back </a>  and select the operation</h1>
 </body>
 </html>

@@ -1,11 +1,14 @@
 # i have created this  file - vivek
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 
 
 def index (request):
     return render(request, 'index.html',)
+
+def index2 (request):
+    return render(request, 'index2.html',)
 
 
 def analyze(request):
@@ -17,6 +20,7 @@ def analyze(request):
     fullcaps=request.POST.get('fullcaps', 'off')
     newline_remover=request.POST.get('newlineremover', 'off')
     char_count=request.POST.get('charcount', 'off')
+    numberremover = request.POST.get('numberremover', 'off')
 
 
 
@@ -59,9 +63,19 @@ def analyze(request):
         params={'purpose':'char count', 'num_char':'char_count is '+str(count),  'analyzed_text': analyzed }
         djtext=analyzed
 
+    if (numberremover == "on"):
+        analyzed = ""
+        numbers = '0123456789'
 
-    if (removepunc!='on' and newline_remover!='on' and char_count!='on' and fullcaps!='on'):
-        return HttpResponse('please select the  operations')
+        for char in djtext:
+            if char not in numbers:
+                analyzed = analyzed + char
+
+        params = {'purpose': 'Removed numbers', 'analyzed_text': analyzed}
+        djtext = analyzed
+
+    if (removepunc!='on' and newline_remover!='on' and char_count!='on' and fullcaps!='on' and numberremover != "on"):
+        return render(request, 'index2.html')
 
 
     return render(request, 'analyze.html', params)
